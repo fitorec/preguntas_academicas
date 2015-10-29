@@ -6,7 +6,6 @@
 		echo $this->Form->input('id');
 		echo $this->Form->input('username');
 		echo $this->Form->input('password');
-		echo $this->Form->input('hash_session');
 		echo $this->Form->input('clave_cifrar');
 		echo $this->Form->input('sig_codigo');
 	?>

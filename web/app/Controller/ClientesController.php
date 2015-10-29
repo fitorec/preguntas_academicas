@@ -64,12 +64,19 @@ class ClientesController extends AppController {
  * @return void
  */
 	public function login() {
-		$hash = md5(mt_rand() . md5(mt_rand()));
 		if ($this->request->is('post')) {
-			die(json_encode($this->request->data));
-		} else {
-			die($hash);
+			$pass = $this->request->data['password'];
+			$options = array('conditions' => array('Cliente.password' => $pass));
+			$cliente = $this->Cliente->find('first', $options);
+			if(!empty($cliente)) {
+				if($cliente['Cliente']['username'] == $this->request->data['username']) {
+					$cliente['Cliente'][' hash_session'] = md5(mt_rand() . md5(mt_rand()));
+					$this->Cliente->save($cliente);
+					die($cliente['Cliente'][' hash_session']);
+				}
+			}
 		}
+		die('Error!');
 	}
 /**
  * add method
