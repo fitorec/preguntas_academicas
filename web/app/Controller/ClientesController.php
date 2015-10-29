@@ -84,8 +84,14 @@ class ClientesController extends AppController {
  * @return void
  */
 	public function generar_rodante($hash_session = null) {
-		$sig_codigo = $this->Cliente->hash();
-		die($sig_codigo);
+		$options = array('conditions' => array('Cliente.hash_session' => $hash_session));
+		$cliente = $this->Cliente->find('first', $options);
+		if(!empty($cliente)) {
+			$cliente['Cliente']['sig_codigo'] = $this->Cliente->hash();
+			$this->Cliente->save($cliente);
+			die($cliente['Cliente']['sig_codigo']);
+		}
+		die('error session not found!');
 	}
 
 /**
