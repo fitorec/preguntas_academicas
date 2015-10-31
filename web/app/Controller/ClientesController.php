@@ -66,30 +66,35 @@ class ClientesController extends AppController {
 	public function login() {
 		if ($this->request->is('post')) {
 			$pass = $this->request->data['password'];
-			$options = array('conditions' => array('Cliente.password' => $pass));
+			$options = array('conditions' => array('password' => $pass));
 			$cliente = $this->Cliente->find('first', $options);
 			if(!empty($cliente)) {
-				if($cliente['Cliente']['username'] == $this->request->data['username']) {
-					$cliente['Cliente'][' hash_session'] = md5(mt_rand() . md5(mt_rand()));
-					$this->Cliente->save($cliente);
-					die($cliente['Cliente'][' hash_session']);
+				if(md5($cliente['Cliente']['username']) == $this->request->data['username']) {
+					$hash_session = md5(mt_rand() . md5(mt_rand()));
+					$this->Cliente->id = $cliente['Cliente']['id'];
+					$this->Cliente->saveField('hash_session', $hash_session);
+					die($hash_session);
 				}
 			}
 		}
-		die('Error!');
+		die(json_encode($this->request->data));
 	}
 /**
  * add method
  *
  * @return void
  */
-	public function generar_rodante($hash_session = null) {
-		$options = array('conditions' => array('Cliente.hash_session' => $hash_session));
-		$cliente = $this->Cliente->find('first', $options);
-		if(!empty($cliente)) {
-			$cliente['Cliente']['sig_codigo'] = $this->Cliente->hash();
-			$this->Cliente->save($cliente);
-			die($cliente['Cliente']['sig_codigo']);
+	public function generar_rodante() {
+		if ($this->request->is('post') && isset($this->request->data['hash_session'])) {
+			$hash_session = $this->request->data['hash_session'];
+			$options = array('conditions' => array('Cliente.hash_session' => $hash_session));
+			$cliente = $this->Cliente->find('first', $options);
+			if(!empty($cliente)) {
+				$sig_codigo  = $this->Cliente->hash();
+				$this->Cliente->id = $cliente['Cliente']['id'];
+				$this->Cliente->saveField('sig_codigo', $sig_codigo);
+				die($sig_codigo);
+			}
 		}
 		die('error session not found!');
 	}

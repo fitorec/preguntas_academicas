@@ -13,16 +13,42 @@
 		<title>Prueba md5</title>
 	</head>
 	<body>
-		<div data-role="page">
-		<div data-role="header">
-			<h1>prueba md5</h1>
+<!-- Main o principal-->
+<div data-role="page" id='main'>
+	<div data-role="header">
+		<h1>Comunicación</h1>
+	</div><!-- /header -->
+	<div data-role="content" >
+		<input id='clave_cifrar' value=''>
+		<a href='#login' data-role='button'>Login</a>
+	</div><!-- fin role content -->
+</div><!-- fin role page -->
+<!-- -->
+<!-- Login-->
+<div data-role="page" id='login'>
+	<div data-role="header">
+		<h1>Login</h1>
 	</div><!-- /header -->
 	<div data-role="content">
-		<input id='convertir' value=''>
-		<input id='resultado' style='display:none;'>
-		<button data-role='btn' id='convertir-btn'>Convertir</button>
+		<input id='username' value='' placeholder='Username'>
+		<input id='password' type='password' value='' placeholder='Contraseña'>
+		<a href='#' data-role='button' id='login_btn'>Login</a>
+		<a href='#main' data-role='button'>Inicio</a>
 	</div><!-- fin role content -->
-	</div><!-- fin role page -->
+</div><!-- fin role page -->
+
+<!-- Envio de datos-->
+<div data-role="page" id='login'>
+	<div data-role="header">
+		<h1>Envio de datos</h1>
+	</div><!-- /header -->
+	<div data-role="content">
+		<input id='sig_codigo' value=''>
+		<a href='#' data-role='button' id='sig_codigo_btn'>Generar Sig.</a>
+		<a href='#main' data-role='button'>Inicio</a>
+	</div><!-- fin role content -->
+</div><!-- fin role page -->
+
 		<!-- Aqui agregar tabla de sus horarios -->
 		<script type="text/javascript" src="cordova.js"></script>
 		<script type="text/javascript" src="js/jquery.js"></script>
